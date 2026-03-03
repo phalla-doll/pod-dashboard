@@ -1,0 +1,5 @@
+{
+  "name": "POS Dashboard",
+  "description": "A point of sale dashboard with product grid and cart.",
+  "requestFramePermissions": []
+}
