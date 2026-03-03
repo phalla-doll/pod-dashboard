@@ -50,7 +50,7 @@ export const ProductSection = () => {
   }, [activeCategory, searchQuery]);
 
   return (
-    <div className="flex flex-1 flex-col overflow-hidden px-8 pb-8">
+    <div className="flex flex-1 flex-col overflow-hidden px-8 pb-8 pt-6 bg-white/10 backdrop-blur-sm">
       <div className="mb-6 flex items-center justify-between">
         <div className="flex gap-3 overflow-x-auto no-scrollbar pb-2 sm:pb-0">
           {categories.map((cat) => {
@@ -59,16 +59,16 @@ export const ProductSection = () => {
               <button
                 key={cat.name}
                 onClick={() => setActiveCategory(cat.name)}
-                className={`flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition-colors whitespace-nowrap ${
+                className={`flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition-all duration-300 whitespace-nowrap ${
                   isActive
-                    ? 'border border-gray-200 bg-white text-gray-900 shadow-sm'
-                    : 'border border-transparent text-gray-500 hover:bg-gray-50'
+                    ? 'bg-white/80 border border-white shadow-[0_2px_10px_rgba(0,0,0,0.04)] text-gray-900 backdrop-blur-md'
+                    : 'bg-white/30 border border-white/40 text-gray-600 hover:bg-white/50 backdrop-blur-sm'
                 }`}
               >
                 {cat.name}
                 <span
-                  className={`rounded-full px-2 py-0.5 text-xs ${
-                    isActive ? 'bg-[#C2F16D] text-gray-900' : 'bg-gray-100 text-gray-500'
+                  className={`rounded-full px-2 py-0.5 text-xs transition-colors ${
+                    isActive ? 'bg-gray-900 text-white' : 'bg-white/50 text-gray-500'
                   }`}
                 >
                   {cat.count}
@@ -85,48 +85,48 @@ export const ProductSection = () => {
               placeholder="Search products..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="h-10 w-48 rounded-full border border-gray-200 px-4 text-sm outline-none focus:border-gray-300 focus:ring-1 focus:ring-gray-300 transition-all"
+              className="h-10 w-48 rounded-full bg-white/60 backdrop-blur-md border border-white/60 px-4 text-sm outline-none focus:border-white focus:bg-white/80 focus:ring-2 focus:ring-gray-200/50 transition-all shadow-[0_2px_10px_rgba(0,0,0,0.02)] placeholder:text-gray-400"
               autoFocus
             />
           )}
           <button 
             onClick={() => setIsSearchOpen(!isSearchOpen)}
-            className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full border transition-colors ${
+            className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full transition-all duration-300 shadow-[0_2px_10px_rgba(0,0,0,0.02)] backdrop-blur-md ${
               isSearchOpen || searchQuery 
-                ? 'border-gray-300 bg-gray-50 text-gray-900' 
-                : 'border-gray-200 text-gray-500 hover:bg-gray-50'
+                ? 'bg-white/80 border border-white text-gray-900' 
+                : 'bg-white/50 border border-white/60 text-gray-500 hover:bg-white/70'
             }`}
           >
-            <Search className="h-5 w-5" />
+            <Search className="h-5 w-5" strokeWidth={1.5} />
           </button>
         </div>
       </div>
 
-      <div className="flex-1 overflow-y-auto pr-2">
+      <div className="flex-1 overflow-y-auto pr-2 no-scrollbar">
         {filteredProducts.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {filteredProducts.map((product) => (
-              <div key={product.id} className="flex flex-col overflow-hidden rounded-2xl border border-gray-100 bg-white p-3 shadow-sm transition-shadow hover:shadow-md">
-                <div className="relative mb-4 h-48 w-full overflow-hidden rounded-xl bg-[#F4F4F4]">
-                  <div className="absolute left-3 top-3 z-10 rounded-md bg-[#2C2C2E] px-2.5 py-1 text-xs font-medium text-white">
+              <div key={product.id} className="flex flex-col overflow-hidden rounded-3xl border border-white/60 bg-white/40 backdrop-blur-xl p-3 shadow-[0_4px_24px_rgba(0,0,0,0.02)] transition-all duration-300 hover:shadow-[0_8px_32px_rgba(0,0,0,0.04)] hover:bg-white/50 hover:-translate-y-1">
+                <div className="relative mb-4 h-48 w-full overflow-hidden rounded-2xl bg-white/50">
+                  <div className="absolute left-3 top-3 z-10 rounded-full bg-white/80 backdrop-blur-md border border-white/50 px-3 py-1 text-xs font-medium text-gray-700 shadow-sm">
                     {product.stock} Stock
                   </div>
                   <Image
                     src={product.image}
                     alt={product.name}
                     fill
-                    className="object-cover mix-blend-multiply"
+                    className="object-cover mix-blend-multiply opacity-90 transition-transform duration-500 hover:scale-105"
                     sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                   />
                 </div>
                 
-                <div className="flex flex-1 flex-col">
-                  <h3 className="mb-1 font-semibold text-gray-900 line-clamp-1">{product.name}</h3>
-                  <p className="mb-4 line-clamp-2 text-sm text-gray-500">{product.desc}</p>
+                <div className="flex flex-1 flex-col px-1">
+                  <h3 className="mb-1 font-semibold text-gray-800 tracking-tight line-clamp-1">{product.name}</h3>
+                  <p className="mb-4 line-clamp-2 text-sm text-gray-500 leading-relaxed">{product.desc}</p>
                   <div className="mt-auto">
-                    <div className="mb-4 text-lg font-bold text-gray-900">${product.price.toFixed(2)}</div>
-                    <button className="flex w-full items-center justify-center gap-2 rounded-xl border border-gray-200 py-2.5 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50">
-                      <Plus className="h-4 w-4" />
+                    <div className="mb-4 text-lg font-semibold text-gray-900">${product.price.toFixed(2)}</div>
+                    <button className="flex w-full items-center justify-center gap-2 rounded-2xl bg-white/60 backdrop-blur-sm border border-white/80 py-2.5 text-sm font-medium text-gray-700 transition-all hover:bg-white/90 hover:shadow-sm">
+                      <Plus className="h-4 w-4" strokeWidth={2} />
                       Add to Cart
                     </button>
                   </div>
